@@ -29,6 +29,7 @@
     <link href="{{ url('assets/vendor/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet" media="all">
     <!-- Main CSS-->
     <link href=" {{ url('css/theme.css')}}" rel="stylesheet" media="all">
+    <link href=" {{ url('css/stilo.css')}}" rel="stylesheet" media="all">
      <!--DATA TABLE-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- meu CSS-->

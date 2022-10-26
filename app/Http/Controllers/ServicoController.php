@@ -37,6 +37,7 @@ class ServicoController extends Controller
      */
     public function store(Request $request)
     {
+       
         $servico=new Servico;
         $servico->descricao=$request->descricao;
         $servico->multa=$this->moeda($request->multa);

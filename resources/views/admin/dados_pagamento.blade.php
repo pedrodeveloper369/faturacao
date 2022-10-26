@@ -126,11 +126,11 @@
 
 
 <script>
-    $(document).ready(function(){
+   /* $(document).ready(function(){
         $('.preco').mask('#.##0,00',{reverse: true});
         $('.multa_valor').mask('#.##0,00',{reverse: true});
 
-     });
+     });*/
 
      
         btn=document.getElementById("btnenviar");

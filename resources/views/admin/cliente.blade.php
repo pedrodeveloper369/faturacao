@@ -126,21 +126,21 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{url('/dashboard/clientes/store')}}" method="Post" novalidate="novalidate">
+                                <form id="formulario" action="{{url('/dashboard/clientes/store')}}" method="Post" novalidate="novalidate">
                                     @csrf
 
                                     <div class="row">
                                         
-                                        <div class="col-6">
-                                            <label for="nome" class="control-label mb-1">Nome</label>
+                                        <div class="col-6 ">
+                                            <label for="nome" class="control-label mb-1">Nome*</label>
                                             <div class="input-group">
-                                                <input id="nome2" name="nome" type="text" class="form-control"  required>
-                                                <small class="vermelho"  id="erro-nome"></small>
-                                            </div>
+                                                <input  id="nome" name="nome" type="text" class="form-control"  required><br>
+                                                <small class="vermelho" id="small"></small>
+                                            </div><br>
                                         </div>
 
                                         <div class="col-6">
-                                            <label for="nif" class="control-label mb-1">Nif</label>
+                                            <label for="nif" class="control-label mb-1">Nif*</label>
                                             <div class="input-group">
                                                 <input id="nif" name="nif" type="text" class="form-control"  required>
                                             </div>
@@ -151,14 +151,14 @@
                                     <div class="row">
                                         
                                         <div class="col-6">
-                                            <label for="morada" class="control-label mb-1">Morada</label>
+                                            <label for="morada" class="control-label mb-1">Morada*</label>
                                             <div class="input-group">
                                                 <input id="morada" name="morada" type="text" class="form-control"  required>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
-                                            <label for="telefone" class="control-label mb-1">Telefone</label>
+                                            <label for="telefone" class="control-label mb-1">Telefone*</label>
                                             <div class="input-group">
                                                 <input id="telefone" name="telefone" type="text" class="form-control"  required>
                                             </div>
@@ -168,20 +168,20 @@
                                     <div class="row">
                                         
                                         <div class="col-6">
-                                            <label for="email" class="control-label mb-1">Email</label>
+                                            <label for="email" class="control-label mb-1">Email*</label>
                                             <div class="input-group">
-                                                <input id=email" name="email" type="text" class="form-control"  required>
+                                                <input id="email" name="email" type="text" class="form-control"  required>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
-                                            <div class="row form-group">
+                                            <div class="row">
                                                 <div class="col col-md-12">
-                                                    <label for="select" class=" form-control-label">Tipo</label>
+                                                    <label for="select" class=" form-control-label">Tipo*</label>
                                                 </div>
-                                                <div class="col-12 col-md-12">
-                                                    <select name="tipo" id="select" class="form-control">
-                                                        <option selected="selected">Selecione</option>
+                                                <div class="col-12 col-md-12 input-group">
+                                                    <select name="tipo" id="tipo" class="form-control">
+                                                        <option selected=" ">Selecione</option>
                                                         <option value="Particular">Particular</option>
                                                         <option value="Empresa">Empresa</option>
                                                     </select>
@@ -198,11 +198,11 @@
                                         <div class="col-6">
                                             <div class="row form-group">
                                                 <div class="col col-md-12">
-                                                    <label for="select" class=" form-control-label">Serviço</label>
+                                                    <label for="select" class=" form-control-label">Serviço*</label>
                                                 </div>
                                               
-                                                <div class="col-12 col-md-12">
-                                                    <select name="servico" id="select" class="form-control">
+                                                <div class="col-12 col-md-12 input-group">
+                                                    <select name="servico" id="servico" class="form-control">
                                                         <option selected="selected">Selecione</option>
                                                         @foreach($servicos as $s)
                                                         <option value="{{$s->id}}">{{$s->descricao}}</option>
@@ -216,10 +216,10 @@
                                         <div class="col-6">
                                             <div class="row form-group">
                                                 <div class="col col-md-12">
-                                                    <label for="select" class=" form-control-label">PT</label>
+                                                    <label for="select" class=" form-control-label">PT*</label>
                                                 </div>
                                                 <div class="col-12 col-md-12">
-                                                    <select name="pt" id="select" class="form-control">
+                                                    <select name="pt" id="pt" class="form-control">
                                                         <option selected="selected">Selecione</option>
                                                         @foreach( $pt as $p)
                                                         <option value="{{$p->id}}">{{$p->localizacao}}</option>
@@ -234,7 +234,7 @@
 
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <label for="preco" class="control-label mb-1">Preço</label>
+                                            <label for="preco" class="control-label mb-1">Preço*</label>
                                             <div class="input-group">
                                                 <input id="preco" name="preco" type="text" class="form-control"  required>
                                             </div>
@@ -470,17 +470,116 @@
 
     function validar(){
         
-       // var nome= document.getElementById('nome2').value;
-        var nome=document.getElementById('nome2').value
+        var form = document.getElementById('formulario');
         
-        if(nome==""){
-            alert('tes');
-            document.getElementById('erro-nome').innerHtml="ops, preencha o campo nome";
-            return false;
-        }
+        form.addEventListener('submit', (event)=>{
+            event.preventDefault();
 
-        
+            var nome=document.getElementById('nome');
+            var nif=document.getElementById('nif');
+            var morada=document.getElementById('morada');
+            var telefone=document.getElementById('telefone');
+            var email=document.getElementById('email');
+            var tipo=document.getElementById('tipo');
+            var servico=document.getElementById('servico');
+            var pt=document.getElementById('pt');
+            var preco=document.getElementById('preco');
+
+            if(controladora(nome, nif, morada, telefone, email, tipo, servico, pt, preco)<=0){
+                form.submit();
+            }
+
+        });
     }
+
+    function erroValidacao(elemento, sms){
+        var novo_elemento = elemento.parentElement;
+        var small = novo_elemento.querySelector('small');
+        
+        novo_elemento.className = 'input-group erro';
+
+    }
+    function inputValidado(elemento){
+        var novo_elemento = elemento.parentElement;
+        novo_elemento.className = 'input-group sucesso';  
+    }
+
+    function controladora(nome, nif, morada, telefone, email, tipo, servico, pt, preco){
+        var cont = 0;
+        const nif_valido = /^[0-9]{9}(bo|BO|Bo|bO |ba|BA|Ba|bA |be|BE|Be|bE |ca|CA|Ca|cA |cc|CC|Cc|cC |cn|CN|Cn|cN |cs|CS|Cs|cS |ce|CE|Ce|cE |ho|HO|Ho|hO |ha|HA|Ha|hA |la|LA|La|lA |ln|LN|Ln|lN |ls|LS|Ls|lS |me|ME|Me|mE |mo|MO|Mo|mO |na|NA|Na|nA |ue|UE|Ue|uE |za|ZA|Za|zA)[0-9]{3}$/;
+
+        if(nome.value ==""){
+                cont = cont+1;
+                erroValidacao(nome, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(nome);
+            }
+
+            if(nif.value ==""){
+                cont = cont+1;
+                erroValidacao(nif, 'Este campo é Obrigatório');
+            }else if(!nif_valido.test(nif.value)){
+                cont = cont+1;
+                erroValidacao(nif, 'NIF Invalido');
+            }else{
+                cont = cont-1;
+                inputValidado(nif);
+            }
+
+            if(morada.value ==""){
+                cont = cont+1;
+                erroValidacao(morada, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(morada);
+            }
+
+            if(telefone.value ==""){
+                cont = cont+1;
+                erroValidacao(telefone, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(telefone);
+            }
+            if(email.value ==""){
+                cont = cont+1;
+                erroValidacao(email, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(email);
+            }
+            if(tipo.value =="Selecione"){
+                cont = cont+1;
+                erroValidacao(tipo, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(tipo);
+            }
+            if(servico.value =="Selecione"){
+                cont = cont+1;
+                erroValidacao(servico, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(servico);
+            }
+            if(pt.value =="Selecione"){
+                cont = cont+1;
+                erroValidacao(pt, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(pt);
+            }
+            if(preco.value ==""){
+                cont = cont+1;
+                erroValidacao(preco, 'Este campo é Obrigatório');
+            }else{
+                cont = cont-1;
+                inputValidado(preco);
+            }
+            return cont;
+    }
+    
 </script>
 
 @endsection

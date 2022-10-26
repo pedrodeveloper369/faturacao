@@ -1,0 +1,17 @@
+.sucesso{
+    border: 1px solid #4eca64;
+}
+
+.erro{
+    border: 1px solid #ec1241;
+}
+
+.input-group small{
+    position: absolute;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.vermelho{
+    color: #ec1241;
+}

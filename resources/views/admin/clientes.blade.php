@@ -56,7 +56,7 @@
                     
                     <td> 
                         <button class="btn btn-md btn-primary">Alterar</button>
-                        <button class="btn btn-md btn-secondary ">bloquear</button 
+                        <button class="btn btn-md btn-secondary ">bloquear</button>
                     </td>
                     @endforeach
                    

@@ -43,7 +43,6 @@
          <!-- -->
 
          
-
                  @if(isset($sms))
 
                  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
@@ -54,6 +53,17 @@
                      </button>
                  </div>
  
+                 @endif
+
+                 <!-- mensagem quando não foi encontrado um cliente pelo nif-->
+                 @if(session()->has('sms_erro'))
+                    <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                        <span class="badge badge-pill badge-danger">Success</span>
+                        {{session()->get('sms_erro')}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                  @endif
 
                  <div class="row mb-3">
@@ -232,7 +242,10 @@
             <p>Por favor digite um nif no campo de busca</p>
         </div>
 
-        
+        <div hidden id="nif_invalido" class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+            <span class="badge badge-pill badge-danger">Invalido</span>
+            <p>Por favor digite um nif válido</p>
+        </div>
 
         <div class="modal-body">
             <form id="formenviar" class="d-flex" action="{{url('/dashboard/pagamentos/buscarCliente')}}" method="Post" role="search">
@@ -243,7 +256,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>  
   <!-- End Modal -->
 
 
@@ -253,8 +266,6 @@
         //mascaras com jmask
         $('#valor').mask('#.##0,00',{reverse: true});
         $(this).find('[autofocus]').focus();
-
-
     });
 
     
@@ -267,12 +278,16 @@
     $(document).ready(function(){
         //codigo para inicializar a data table
        var table=$('#datatable').DataTable();   
-        });
+    });
         
 
         var botaopesquisar=document.getElementById('btn_send');
         var erro=document.getElementById("div_erro");
+        var nif_invalido = document.getElementById('nif_invalido');
         var form=document.getElementById("formenviar");
+
+        const nif_valido = /^[0-9]{9}(bo|BO|Bo|bO |ba|BA|Ba|bA |be|BE|Be|bE |ca|CA|Ca|cA |cc|CC|Cc|cC |cn|CN|Cn|cN |cs|CS|Cs|cS |ce|CE|Ce|cE |ho|HO|Ho|hO |ha|HA|Ha|hA |la|LA|La|lA |ln|LN|Ln|lN |ls|LS|Ls|lS |me|ME|Me|mE |mo|MO|Mo|mO |na|NA|Na|nA |ue|UE|Ue|uE |za|ZA|Za|zA)[0-9]{3}$/;
+
         botaopesquisar.addEventListener('click', (event)=>{
                 var nif=document.getElementById("nif").value;
                // var form=document.getElementById("d");
@@ -280,15 +295,22 @@
                 event.preventDefault();
                 
                 if(nif==""){
-                    
+
                     erro.removeAttribute('hidden');
+                    nif_invalido.setAttribute('hidden', true);
                     
+                }else if(!nif_valido.test(nif)){
+
+                    nif_invalido.removeAttribute('hidden');
+                    erro.setAttribute('hidden', true); 
+
                 }else{
                     erro.setAttribute('hidden', true);
-                   form.submit();
-
+                    nif_invalido.setAttribute('hidden', true);
+                    form.submit();
                 }
-               
+
+
                });
 
 

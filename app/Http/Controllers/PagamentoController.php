@@ -41,7 +41,7 @@ class PagamentoController extends Controller
         
         if(!($clientes = Cliente::where('nif',$nif)->first())){  
             return redirect()->back()
-            ->with('sms_erro', 'Cliente Inexistente, Verifique se o NIF está correto');
+            ->with('sms_erro', 'Falha na Busca, não existe nos Registos um Cliente com este NIF');
         }
         
         /*$servico = Servico::where('id',$cliente->servico_id)->first();
@@ -189,26 +189,20 @@ class PagamentoController extends Controller
                 $ano= explode('-', $request["data".$cont]);
                 $c->ano = $ano[0];
                 $c->mes = $this->retornaMes($ano[1]);
-                $c->multa=$request["multa".$cont];
+                
+                $c->multa=$request["valor_multa".$cont];
+              
                 $c->cliente_id = $_SESSION['id_cliente'];
                 $c->pagamento_id = $p->id;
                 $c->valor =$request["preco".$cont];
+                
                 $c->save();
-    
+                
             }
         }else{
             //não é o primeiro pagamento
-
-            //registar o pagamento
-            $p->modopagamento=$_SESSION['modo'];
-            $p->nomebanco=$_SESSION['banco'];
-            $p->id_docpagamento=$_SESSION['id_documento'];
-            $p->estado='não verficicado';
-            $p->qtd= $_SESSION['qtd'];
-            $p->user_id=Auth::user()->id;
-            $p->datapagamento = date('y-m-d');
-            $p->save();
-            $qtd=$_SESSION['qtd'];
+            //visto que não é o primeiro pagamento, so devemos cadastrar quer o pagamento como o clientepagamento caso as verificações a seguir sejam confirmadas
+            $qtd= $_SESSION['qtd'];
 
             for($i=0; $i<$qtd; $i++){
                 $cont=$i+1;
@@ -220,8 +214,6 @@ class PagamentoController extends Controller
                 ->get();
 
                 $size=count($cp);
-
-             
 
                 if( $size==0){
                     //pagamento do inicio do ano (janeiro) logo verifico se não há divida nos meses do ano passado
@@ -250,12 +242,25 @@ class PagamentoController extends Controller
                 //verificar se o mes a ser pago 
                
                 if($this->numeroMes($mes)==($ultimo_mes+1)){
+                    
+                    //registar o pagamento
+                    $p->modopagamento=$_SESSION['modo'];
+                    $p->nomebanco=$_SESSION['banco'];
+                    $p->id_docpagamento=$_SESSION['id_documento'];
+                    $p->estado='não verficicado';
+                    $p->qtd= $_SESSION['qtd'];
+                    $p->user_id=Auth::user()->id;
+                    $p->datapagamento = date('y-m-d');
+                    $p->save();
+                    $qtd=$_SESSION['qtd'];
+
+                    //registar clientepagamento
                     $c=new ClientePagamento();
                     $cont=$i+1;
                     $ano= explode('-', $request["data".$cont]);
                     $c->ano = $ano[0];
                     $c->mes = $this->retornaMes($ano[1]);
-                    $c->multa=$request["multa".$cont];
+                    $c->multa=$request["valor_multa".$cont];
                     $c->cliente_id = $_SESSION['id_cliente'];
                     $c->pagamento_id = $p->id;
                     $c->valor =$request["preco".$cont];

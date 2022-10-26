@@ -141,7 +141,7 @@
                                     </div>
 
 
-
+                                    <!--
                                     <div class="row">
                             
                                         <div class="col-6">
@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    -->
                                     
                                     <div class="text-right">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
